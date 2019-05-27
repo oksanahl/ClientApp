@@ -1,0 +1,3 @@
+172.31.41.56, offline, gateway
+171.45.67.34, online
+123.45.67.89, offline
