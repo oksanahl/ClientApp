@@ -1,0 +1,17 @@
+{    "ipAddress": [
+        "172.31.43.56",
+        "173.45.67.89",
+        "164.34.56.78"
+    ],
+    "status": [
+        "online",
+        "offline",
+        "online"
+    ],
+    "gateway": [
+        "no",
+        "no",
+        "yes"
+    ]
+
+}
