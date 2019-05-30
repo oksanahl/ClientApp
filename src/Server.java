@@ -27,8 +27,11 @@ public class Server
             System.out.println("Client accepted");
 
             System.out.println("Sending machineArray to client");
-            String str ="machine";
-            out.writeUTF(str);
+
+            OutputStream out = socket.getOutputStream();
+            ObjectOutputStream oout = new ObjectOutputStream(out);
+            oout.writeObject("machine");
+            oout.close();
 
 
             // takes input from the client socket
@@ -75,7 +78,6 @@ public class Server
 
     public static void main(String args[]) throws IOException {
 
-
         ArrayList<Object> machinelist = new ArrayList<Object>();
         Machine machine = new Machine("172.34.56.78", 174, true, false);
         Machine machine1 = new Machine("172.35.56.78", 175, true, false);
@@ -90,7 +92,6 @@ public class Server
         machines.parseJson("machinelist.json");
 
         Server server = new Server(5000);
-
 
     }
 }
