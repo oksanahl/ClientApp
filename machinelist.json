@@ -1,11 +1,1 @@
-{
-    "firstName": "John",
-    "lastName": "Smith",
-
-   "firstName": "Oksana",
-    "lastName": "Smith" }
-
- 
-
-
-    
+[{"ipAddress":"172.34.56.78","timestamp":174,"status":true,"gateway":false},{"ipAddress":"172.35.56.78","timestamp":175,"status":true,"gateway":false},{"ipAddress":"172.35.56.78","timestamp":176,"status":false,"gateway":true},{"ipAddress":"172.35.56.78","timestamp":176,"status":false,"gateway":false}]

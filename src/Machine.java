@@ -1,5 +1,5 @@
 import java.io.IOException;
-
+import java.util.ArrayList;
 
 public class Machine {
 
@@ -15,5 +15,10 @@ public class Machine {
         this.status = status;
         this.gateway = gateway;
 
+    }
+
+    public String toString() {
+        return "[" + ipAddress + " " + timestamp +
+                " " + status + " " + gateway + "]";
     }
 }
