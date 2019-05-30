@@ -1,5 +1,6 @@
 import java.net.*;
 import java.io.*;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Client {
@@ -16,25 +17,24 @@ public class Client {
             socket = new Socket(localhost, port);
             System.out.println("Connected"); // need to  change to log
 
-            // takes input from terminal
-            //input  = new DataInputStream(System.in);
-
-            // sends output to the socket
-            //out    = new DataOutputStream(socket.getOutputStream());
+            //in  = new DataInputStream(System.in);
+            out    = new DataOutputStream(socket.getOutputStream());
         }
         catch(UnknownHostException u)
         {
             System.out.println(u);
         }
+       /* try
+        {
+            in.close();
+            out.close();
+            socket.close();
+        }
+        catch(IOException i)
+        {
+            System.out.println(i);
+        }*/
 
-    }
-
-    public void sendStopMachine () throws IOException {
-        System.out.println("Enter ipAddress of machine to be terminated");
-        Scanner scanner = new Scanner(System.in);
-        String ipAddress = scanner.nextLine();
-        out.writeUTF(ipAddress);
-        System.out.println("Machine" + " " + ipAddress +" will be terminated" );
     }
 
     public void getMachineArray() throws IOException, ClassNotFoundException {
@@ -42,37 +42,30 @@ public class Client {
         ObjectInputStream oin = new ObjectInputStream(in);
         String stringFromServer = (String) oin.readObject();
         System.out.println(stringFromServer);
-        //FileWriter writer = new FileWriter("received.txt");
-        //writer.write(stringFromServer);
         in.close();
-        //writer.close();
+    }
+
+    public void sendStopMachine () throws IOException {
+        System.out.println("Termination of machine is started");
+        //Scanner scanner = new Scanner(System.in);
+        //String ipAddress = scanner.nextLine();
+        InetAddress host = InetAddress.getLocalHost();
+        String hostIP = host.getHostAddress() ;
+        out.writeUTF(hostIP);
+        System.out.println("Machine" + " " + hostIP +" is terminated" );
     }
 
 
     public static void main(String args[]) throws IOException, ClassNotFoundException {
 
-        if(args.length == 0) {
+        /*if(args.length == 0) {
         Client client = new Client("localhost",5000);
-        //client.sendStopMachine();
-        client.getMachineArray();
+        client.sendStopMachine();*/
 
         //if(args[0] == "Stop") {
-            //Client client1 = new Client("localhost",5000);
-            //client1.sendStopMachine();
+            Client client1 = new Client("localhost",5000);
+            client1.getMachineArray();
 
+    }}
 
-
-    }}}
-
-        /*
-        // close the connection
-        try
-        {
-            input.close();
-            out.close();
-            socket.close();
-        }
-        catch(IOException i)
-        {
-            System.out.println(i);
-        }}*/
+     
