@@ -19,8 +19,8 @@ public class Server
 
             System.out.println("Waiting for a client ...");
 
-            socket = server.accept();
-            System.out.println("Client accepted");
+             socket = server.accept();
+             System.out.println("Client accepted");
 
             //System.out.println("Closing connection");
 
@@ -46,11 +46,29 @@ public class Server
             System.out.println("Generic Exception Caught in command Server Manager: " + e.getMessage());
         }}
 
+       public void getStopMachine() throws IOException {
+           in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+            String ipAddress = null;
+               try{ ipAddress =in.readUTF();
+                System.out.println("Terminating machine" + " " + ipAddress);}
+                catch(IOException i)
+            {
+                System.out.println(i);
+            }
+
+        }
+
     public static void main(String args[]) throws IOException {
 
+       /* if(args.length == 0) {
         MachineList machines = new MachineList();
         Server server = new Server(5000);
+        server.getStopMachine();*/
 
-        server.sendMachineArray(machines.parseJson("machinelist.json"));
-    }
+       // if (args[0] == "Stop") {
+            MachineList machines1 = new MachineList();
+            Server server1 = new Server (5000);
+            server1.sendMachineArray(machines1.parseJson("machinelist.json"));
+        }
+
 }
