@@ -37,6 +37,7 @@ public class Client {
 
     }
 
+
     public void getMachineArray() throws IOException, ClassNotFoundException {
         InputStream in = socket.getInputStream();
         ObjectInputStream oin = new ObjectInputStream(in);
@@ -64,7 +65,20 @@ public class Client {
 
         //if(args[0] == "Stop") {
             Client client1 = new Client("localhost",5000);
-            client1.getMachineArray();
+            System.out.println("Enter command to execute");
+            Scanner scanner = new Scanner(System.in);
+
+            String phrase =  scanner.nextLine();
+
+            if (phrase.equals("DISCONNECT")) {
+              client1.sendStopMachine();}
+
+            else if (phrase.equals("LIST")){
+                client1.getMachineArray();}
+
+            else if (phrase.equals("")) {
+               System.out.println("Invalid input please try again");
+            }
 
     }}
 

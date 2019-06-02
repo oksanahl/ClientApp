@@ -58,17 +58,18 @@ public class Server
 
         }
 
-    public static void main(String args[]) throws IOException {
 
+    public static void main(String args[]) throws IOException {
        /* if(args.length == 0) {
         MachineList machines = new MachineList();
         Server server = new Server(5000);
         server.getStopMachine();*/
 
        // if (args[0] == "Stop") {
-            MachineList machines1 = new MachineList();
-            Server server1 = new Server (5000);
-            server1.sendMachineArray(machines1.parseJson("machinelist.json"));
-        }
+           MachineList machines1 = new MachineList();
+           Server server1 = new Server (5000);
+           //server1.getStopMachine();}
+           server1.sendMachineArray(machines1.parseJson("machinelist.json"));
 
-}
+        }}
+
