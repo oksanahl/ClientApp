@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 public class Client {
 
-    // initialize socket and input output streams
     private Socket socket            = null;
     private DataInputStream  in   = null;
     private DataOutputStream out     = null;
@@ -17,7 +16,7 @@ public class Client {
             socket = new Socket(localhost, port);
             System.out.println("Connected"); // need to  change to log
 
-            //in  = new DataInputStream(System.in);
+            in  = new DataInputStream(System.in);
             out    = new DataOutputStream(socket.getOutputStream());
         }
         catch(UnknownHostException u)
@@ -38,7 +37,8 @@ public class Client {
     }
 
 
-    public void getMachineArray() throws IOException, ClassNotFoundException {
+    public void getMachineArray(String str) throws IOException, ClassNotFoundException {
+        out.writeUTF(str);
         InputStream in = socket.getInputStream();
         ObjectInputStream oin = new ObjectInputStream(in);
         String stringFromServer = (String) oin.readObject();
@@ -59,26 +59,28 @@ public class Client {
 
     public static void main(String args[]) throws IOException, ClassNotFoundException {
 
+        DataOutputStream out     = null;
         /*if(args.length == 0) {
         Client client = new Client("localhost",5000);
         client.sendStopMachine();*/
 
         //if(args[0] == "Stop") {
             Client client1 = new Client("localhost",5000);
+            for (int i =0; i<5; i++) {
             System.out.println("Enter command to execute");
             Scanner scanner = new Scanner(System.in);
 
             String phrase =  scanner.nextLine();
 
-            if (phrase.equals("DISCONNECT")) {
-              client1.sendStopMachine();}
 
-            else if (phrase.equals("LIST")){
-                client1.getMachineArray();}
 
-            else if (phrase.equals("")) {
-               System.out.println("Invalid input please try again");
+                if (phrase.equals("DISCONNECT")) {
+                    client1.sendStopMachine();
+                } else if (phrase.equals("LIST")) {
+                    client1.getMachineArray(phrase);
+                } else {
+                    System.out.println("Invalid input please try again");
+                }
             }
-
-    }}
+   }}
 
