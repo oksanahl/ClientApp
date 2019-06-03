@@ -14,7 +14,7 @@ public class Client
             // getting localhost ip
             InetAddress ip = InetAddress.getByName("localhost");
 
-            // establish the connection with server port 5056
+            // establish the connection with server port 5000
             Socket s = new Socket(ip, 5000);
 
             // obtaining input and out streams
@@ -38,8 +38,7 @@ public class Client
                     System.out.println("Connection closed");
                     break;
                 }
-
-                // printing date or time as requested by client
+                
                 String received = dis.readUTF();
                 System.out.println(received);
             }
