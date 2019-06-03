@@ -1,86 +1,55 @@
-import java.net.*;
 import java.io.*;
-import java.util.Arrays;
+import java.net.*;
 import java.util.Scanner;
 
-public class Client {
-
-    private Socket socket            = null;
-    private DataInputStream  in   = null;
-    private DataOutputStream out     = null;
-
-    public Client(String localhost, int port) throws IOException {
-
+// Client class
+public class Client
+{
+    public static void main(String[] args) throws IOException
+    {
         try
         {
-            socket = new Socket(localhost, port);
-            System.out.println("Connected"); // need to  change to log
+            Scanner scn = new Scanner(System.in);
 
-            in  = new DataInputStream(System.in);
-            out    = new DataOutputStream(socket.getOutputStream());
-        }
-        catch(UnknownHostException u)
-        {
-            System.out.println(u);
-        }
-       /* try
-        {
-            in.close();
-            out.close();
-            socket.close();
-        }
-        catch(IOException i)
-        {
-            System.out.println(i);
-        }*/
+            // getting localhost ip
+            InetAddress ip = InetAddress.getByName("localhost");
 
-    }
+            // establish the connection with server port 5056
+            Socket s = new Socket(ip, 5000);
 
+            // obtaining input and out streams
+            DataInputStream dis = new DataInputStream(s.getInputStream());
+            DataOutputStream dos = new DataOutputStream(s.getOutputStream());
 
-    public void getMachineArray(String str) throws IOException, ClassNotFoundException {
-        out.writeUTF(str);
-        InputStream in = socket.getInputStream();
-        ObjectInputStream oin = new ObjectInputStream(in);
-        String stringFromServer = (String) oin.readObject();
-        System.out.println(stringFromServer);
-        in.close();
-    }
+            // the following loop performs the exchange of
+            // information between client and client handler
+            while (true)
+            {
+                System.out.println(dis.readUTF());
+                String tosend = scn.nextLine();
+                dos.writeUTF(tosend);
 
-    public void sendStopMachine () throws IOException {
-        System.out.println("Termination of machine is started");
-        //Scanner scanner = new Scanner(System.in);
-        //String ipAddress = scanner.nextLine();
-        InetAddress host = InetAddress.getLocalHost();
-        String hostIP = host.getHostAddress() ;
-        out.writeUTF(hostIP);
-        System.out.println("Machine" + " " + hostIP +" is terminated" );
-    }
-
-
-    public static void main(String args[]) throws IOException, ClassNotFoundException {
-
-        DataOutputStream out     = null;
-        /*if(args.length == 0) {
-        Client client = new Client("localhost",5000);
-        client.sendStopMachine();*/
-
-        //if(args[0] == "Stop") {
-            Client client1 = new Client("localhost",5000);
-            for (int i =0; i<5; i++) {
-            System.out.println("Enter command to execute");
-            Scanner scanner = new Scanner(System.in);
-
-            String phrase =  scanner.nextLine();
-
-
-
-                if (phrase.equals("DISCONNECT")) {
-                    client1.sendStopMachine();
-                } else if (phrase.equals("LIST")) {
-                    client1.getMachineArray(phrase);
-                } else {
-                    System.out.println("Invalid input please try again");
+                // If client sends exit,close this connection
+                // and then break from the while loop
+                if(tosend.equals("Exit"))
+                {
+                    System.out.println("Closing this connection : " + s);
+                    s.close();
+                    System.out.println("Connection closed");
+                    break;
                 }
-            }
-   }}
 
+                // printing date or time as requested by client
+                String received = dis.readUTF();
+                System.out.println(received);
+            }
+
+            // closing resources
+            scn.close();
+            dis.close();
+            dos.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+}

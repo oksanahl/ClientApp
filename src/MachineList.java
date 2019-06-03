@@ -1,9 +1,11 @@
 import java.io.*;
+import java.lang.reflect.Array;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Vector;
 
 import com.google.gson.*;
-
 
 public class MachineList {
 
@@ -26,10 +28,17 @@ public class MachineList {
 
     }
 
+    public String sendStopMachine() throws IOException {
+        InetAddress host = InetAddress.getLocalHost();
+        String hostIP = host.getHostAddress() ;
+        String mystring = "Disconnecting machine" + " " + hostIP;
+        return (mystring);
+
+    }
+
     public static void main(String[] args) throws Exception {
 
         ArrayList<Object> machinelist = new ArrayList<Object>();
-        //Gson gson = new Gson();
 
         Machine machine = new Machine("172.34.56.78", 174, true, false);
         Machine machine1 = new Machine("172.35.56.78", 175, true, false);
@@ -43,7 +52,6 @@ public class MachineList {
         MachineList machines = new MachineList();
         machines.writeJson(machinelist);
 
-        //machines.parseJson("machinelist.json");
     }
 }
 
