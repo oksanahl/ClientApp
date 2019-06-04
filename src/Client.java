@@ -2,53 +2,52 @@ import java.io.*;
 import java.net.*;
 import java.util.Scanner;
 
-// Client class
 public class Client
 {
-    public static void main(String[] args) throws IOException
-    {
-        try
-        {
-            Scanner scn = new Scanner(System.in);
+    public static void main(String[] args) throws Exception
+    { MachineList machines2 = new MachineList();
 
-            // getting localhost ip
-            InetAddress ip = InetAddress.getByName("localhost");
+    for (int i=1; i<10; i++){
+    System.out.println("Enter command to execute?[Disconnect | List | Grep]" + " " + "or type Exit to close the Client.");
+    Scanner scn = new Scanner(System.in);
+    String tosend = scn.nextLine();
 
-            // establish the connection with server port 5000
-            Socket s = new Socket(ip, 5000);
-
-            // obtaining input and out streams
-            DataInputStream dis = new DataInputStream(s.getInputStream());
-            DataOutputStream dos = new DataOutputStream(s.getOutputStream());
-
-            // the following loop performs the exchange of
-            // information between client and client handler
-            while (true)
-            {
-                System.out.println(dis.readUTF());
-                String tosend = scn.nextLine();
-                dos.writeUTF(tosend);
-
-                // If client sends exit,close this connection
-                // and then break from the while loop
                 if(tosend.equals("Exit"))
                 {
-                    System.out.println("Closing this connection : " + s);
-                    s.close();
-                    System.out.println("Connection closed");
+                    System.out.println("Closing the client ");
+                    System.out.println("Client closed");
                     break;
                 }
-                
-                String received = dis.readUTF();
-                System.out.println(received);
-            }
 
-            // closing resources
-            scn.close();
-            dis.close();
-            dos.close();
-        }catch(Exception e){
-            e.printStackTrace();
+              else if(tosend.equals("Grep"))
+                {
+                    System.out.println("Enter the phrase to search for: ");
+                    Scanner scanner = new Scanner(System.in);
+                    String phrase =  scanner.nextLine();
+                    machines2.findPhrase(phrase);
+                }
+
+              else if(tosend.equals("List"))
+              {
+                  System.out.println(machines2.parseJson("machinelist.json"));
+              }
+
+              else if (tosend.equals("Disconnect"))
+              {
+                  InetAddress ip = InetAddress.getByName("localhost");
+                  Socket s = new Socket(ip, 5000);
+
+                  DataInputStream dis = new DataInputStream(s.getInputStream());
+                  DataOutputStream dos = new DataOutputStream(s.getOutputStream());
+                  dos.writeUTF(tosend);
+                  String received = dis.readUTF();
+                  System.out.println(received);
+              }
+
+              else
+                  {
+                      System.out.println("Invalid input from user");
+                  }
+
         }
-    }
-}
+        }}

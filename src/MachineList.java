@@ -36,6 +36,38 @@ public class MachineList {
 
     }
 
+    public void findPhrase(String phrase) throws Exception
+    {
+        Vector<String> responseList = new Vector<>();
+        //System.out.println("Finding lines with string: " + phrase);
+        String logFileName = "mylog.log";
+
+        Runtime rt = Runtime.getRuntime();
+        String cmd = "grep '" + phrase + "' " + logFileName;
+        Process proc = rt.exec(cmd);
+        BufferedReader is = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+        String line;
+        while ((line = is.readLine()) != null) {
+            responseList.add(line);
+        }
+
+        responseList.toString();
+
+        for (String line1 : responseList) {
+            System.out.println(line1);
+        }
+
+
+        //System.out.println("Found " + responseList.size() +  " lines with string: " + phrase);
+        //String[] array = responseList.toArray(new String[responseList.size()]);
+        //String stringArray = Arrays.toString(array);
+
+        //return responseList;
+
+        }
+
+
+
     public static void main(String[] args) throws Exception {
 
         ArrayList<Object> machinelist = new ArrayList<Object>();
